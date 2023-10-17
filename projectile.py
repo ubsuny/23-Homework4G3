@@ -18,7 +18,7 @@ def projectile_with_drag(v_start): # Insert the starting velocity
     x_list = [] # list to store x positions
     y_list = [] # list to store y positions
 
-  for j in range(len(angle)): # loop over launch angles
+    for j in range(len(angle)): # loop over launch angles
 
       vx = v_initial * math.cos(angle[j]) # initial x velocity
       vy = v_initial * math.sin(angle[j]) # initial y velocity
