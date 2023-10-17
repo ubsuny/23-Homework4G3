@@ -28,6 +28,5 @@ jobs:
     - name: List directory contents
       run: ls -al
     - name: lint projectile.py
-      run: pylint projectile.py > pylint_output.log || exit 0
-      # Replace with the actual name of your Python script
+      run: pylint projectile.py 
       
