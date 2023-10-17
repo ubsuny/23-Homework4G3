@@ -1,5 +1,5 @@
 import unittest
-import projectile.py
+import projectile
 
 class TestProjectileMotion(unittest.TestCase):
     def test_calc_xy(self):
