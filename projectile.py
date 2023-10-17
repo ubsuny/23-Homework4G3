@@ -2,32 +2,31 @@ import math
 import matplotlib.pyplot as plt
 
 def projectile_with_drag(v_start): # Insert the starting velocity
+    g = 9.81 # m / s^2
+    dt = 0.5 # time step in seconds
 
-  g = 9.81 # m / s^2
-  dt = 0.5 # time step in seconds
+    x_start = 0 # starting x position
+    y_start = 0 #starting y position
 
-  x_start = 0 # starting x position
-  y_start = 0 #starting y position
+    const = 4*(10**-5) # Air Drag B_2 constant (1 / meter)
 
-  const = 4*(10**-5) # Air Drag B_2 constant (1 / meter)
+    v_initial = v_start # meters per second
 
-  v_initial = v_start # meters per second
+    angle_degree = [30, 35, 40, 45, 50, 55] # launch angle in degrees
+    angle = [math.radians(degrees) for degrees in angle_degree] # convert launch angle to radians
 
-  angle_degree = [30, 35, 40, 45, 50, 55] # launch angle in degrees
-  angle = [math.radians(degrees) for degrees in angle_degree] # convert launch angle to radians
-
-  x_list = [] # list to store x positions
-  y_list = [] # list to store y positions
+    x_list = [] # list to store x positions
+    y_list = [] # list to store y positions
 
   for j in range(len(angle)): # loop over launch angles
 
-    vx = v_initial * math.cos(angle[j]) # initial x velocity
-    vy = v_initial * math.sin(angle[j]) # initial y velocity
+      vx = v_initial * math.cos(angle[j]) # initial x velocity
+      vy = v_initial * math.sin(angle[j]) # initial y velocity
 
-    x = [x_start] # list to store x positions
-    y = [y_start] # list to store y positions
+      x = [x_start] # list to store x positions
+      y = [y_start] # list to store y positions
 
-    i = 0 # index for the while loop
+      i = 0 # index for the while loop
 
     while y[-1] >= 0: # loop to calculate x and y positions
       x.append(x[i] + vx * dt) # calculate and save x
