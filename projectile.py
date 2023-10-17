@@ -6,7 +6,7 @@ def projectile_with_drag(v_start): # Insert the starting velocity
     dt = 0.5 # time step in seconds
 
     x_start = 0 # starting x position
-    y_start = 0 #starting y position
+    y_start = 0 # starting y position
 
     const = 4*(10**-5) # Air Drag B_2 constant (1 / meter)
 
@@ -19,43 +19,42 @@ def projectile_with_drag(v_start): # Insert the starting velocity
     y_list = [] # list to store y positions
 
     for j in range(len(angle)): # loop over launch angles
+        vx = v_initial * math.cos(angle[j]) # initial x velocity
+        vy = v_initial * math.sin(angle[j]) # initial y velocity
 
-      vx = v_initial * math.cos(angle[j]) # initial x velocity
-      vy = v_initial * math.sin(angle[j]) # initial y velocity
+        x = [x_start] # list to store x positions
+        y = [y_start] # list to store y positions
+        i = 0 # index for the while loop
 
-      x = [x_start] # list to store x positions
-      y = [y_start] # list to store y positions
+        while y[-1] >= 0: # loop to calculate x and y positions
+            x.append(x[i] + vx * dt) # calculate and save x
+            y.append(y[i] + vy * dt) # calculate and save y
+            vx = vx - const * dt * vx * math.sqrt((vx**2) + (vy**2)) # update x velocity
+            vy = vy - dt * (g + const * vy * math.sqrt((vx**2) + (vy**2))) # update y velocity
+            i = i + 1 # update index
 
-      i = 0 # index for the while loop
+        # interpolate between the last two points to determine the final position
+        r = -y[-2] / y[-1]
+        x[-1] = (x[-2] + r * x[-1]) / (r + 1)
+        y[-1] = 0.0
 
-    while y[-1] >= 0: # loop to calculate x and y positions
-      x.append(x[i] + vx * dt) # calculate and save x
-      y.append(y[i] + vy * dt) # calculate and save y
-      vx = vx - const * dt * vx * math.sqrt((vx**2) + (vy**2)) # update x velocity
-      vy = vy - dt * (g + const * vy * math.sqrt((vx**2) + (vy**2))) # update y velocity
-      i = i + 1 # update index
+        # saving x and y positions
+        x_list.append(x)
+        y_list.append(y)
 
-    # interpolate between the last two points to determine the final position
-    r = -y[-2] / y[-1]
-    x[-1] = (x[-2] + r * x[-1]) / (r + 1)
-    y[-1] = 0.0
-
-    # saving x and y positions
-    x_list.append(x)
-    y_list.append(y)
-
-  # plotting
-  colours = ["purple", "blue", "green", "yellow", "orange", "red"] # list of colors
-  plt.figure(figsize=(8, 6)) # set plot size
-  for i in range(len(x_list)): # plotting trajectory for each launch angle
-   plt.scatter(list(map(lambda z: z / 1000, x_list[i])),
-            list(map(lambda z: z / 1000, y_list[i])), # converting from m to km
-            c=colours[i], s=1, label='θ = {}°'.format(angle_degree[i])) # colors and legends
-  plt.xlabel('x (km)')
-  plt.ylabel('y (km)')
-  plt.legend()
-  plt.title("Projectile Motion with Air Drag")
-  plt.show()
+    # plotting
+    colours = ["purple", "blue", "green", "yellow", "orange", "red"] # list of colors
+    plt.figure(figsize=(8, 6)) # set plot size
+    for i in range(len(x_list)): # plotting trajectory for each launch angle
+        plt.scatter(list(map(lambda z: z / 1000, x_list[i])),
+                    list(map(lambda z: z / 1000, y_list[i])), # converting from m to km
+                    c=colours[i], s=1, label='θ = {}°'.format(angle_degree[i])) # colors and legends
+    plt.xlabel('x (km)')
+    plt.ylabel('y (km)')
+    plt.legend()
+    plt.title("Projectile Motion with Air Drag")
+    plt.show()
 
 # Call the function with a starting velocity
 projectile_with_drag(100) # Insert your desired starting velocity
+
